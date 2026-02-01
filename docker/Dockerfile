@@ -1,5 +1,8 @@
 FROM node:22-bookworm-slim
 
+# Install git (required by openclaw dependencies)
+RUN apt-get update && apt-get install -y git && rm -rf /var/lib/apt/lists/*
+
 # Install openclaw globally
 RUN npm install -g openclaw@latest
 
@@ -16,4 +19,4 @@ USER openclaw
 EXPOSE 18789
 
 # Start the OpenClaw Gateway
-CMD ["openclaw", "gateway", "--port", "18789"]
+CMD ["openclaw", "gateway", "--port", "18789", "--allow-unconfigured"]

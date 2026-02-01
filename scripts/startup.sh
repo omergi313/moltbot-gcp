@@ -84,6 +84,8 @@ echo "Writing Dockerfile..."
 cat > "$OPENCLAW_HOME/docker/Dockerfile" <<'DOCKEREOF'
 FROM node:22-bookworm-slim
 
+RUN apt-get update && apt-get install -y git && rm -rf /var/lib/apt/lists/*
+
 RUN npm install -g openclaw@latest
 
 RUN useradd -m -s /bin/bash openclaw
@@ -94,7 +96,7 @@ USER openclaw
 
 EXPOSE 18789
 
-CMD ["openclaw", "gateway", "--port", "18789"]
+CMD ["openclaw", "gateway", "--port", "18789", "--allow-unconfigured"]
 DOCKEREOF
 
 # Write docker-compose.yml
